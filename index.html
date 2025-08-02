@@ -64,7 +64,9 @@
       });
 
       if (response.ok) alert("Mensagem enviada para processamento!");
-      else alert("Erro ao enviar mensagem." + response);
+      else {
+        alert("Erro ao enviar mensagem." + response);
+        alert(payload);
     });
   </script>
 </body>
