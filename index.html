@@ -48,8 +48,8 @@
         message: this.message.value,
         timestamp: new Date().toISOString()
       };
-
-      const response = await fetch("https://api.github.com/repos/figueiredolive/logan-the-cat/actions/workflows/store-contact.yml/dispatches", {
+      const response = await fetch("https://api.github.com/repos/figueiredolive/logan-the-cat/actions/workflows/form-handler.yml/dispatches", {
+//      const response = await fetch("https://api.github.com/repos/figueiredolive/logan-the-cat/actions/workflows/store-contact.yml/dispatches", {
         method: "POST",
         headers: {
           // "Authorization": "Bearer YOUR_GITHUB_PAT",  // Substitui por token temporário (ou usa token via backend se preferires)
