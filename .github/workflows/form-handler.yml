@@ -1,0 +1,25 @@
+# Alternativa a chamada direta à API. Este workflow pode ser chamado manualmente para processar ficheiros temporários.
+
+name: Guardar dados do formulário
+on:
+  workflow_dispatch:
+
+jobs:
+  salvar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Criar ficheiro de teste
+        run: |
+          mkdir -p data
+          echo '{"exemplo": "formulario manual"}' > data/teste-${{ github.run_id }}.json
+
+      - name: Commit e push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add data/
+          git commit -m "Novo teste manual"
+          git push
