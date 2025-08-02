@@ -1,0 +1,33 @@
+name: Store Contact Message
+
+on:
+  workflow_dispatch:
+    inputs:
+      contact_data:
+        description: "JSON dos dados de contacto"
+        required: true
+
+jobs:
+  store:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Criar ficheiro JSON com os dados
+      env:
+        DATA: ${{ github.event.inputs.contact_data }}
+      run: |
+        echo "$DATA" > temp.json
+        TIMESTAMP=$(date +%s)
+        FILENAME="data/contact-${TIMESTAMP}.json"
+        mkdir -p data
+        mv temp.json "$FILENAME"
+    
+    - name: Commit e push
+      uses: EndBug/add-and-commit@v9
+      with:
+        add: 'data/*.json'
+        message: "Novo contacto"
+      env:
+        GITHUB_TOKEN: ${{ secrets.PET_DATA_STORE_TOKEN }}
