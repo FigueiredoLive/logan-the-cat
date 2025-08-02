@@ -27,8 +27,45 @@
     <h2>📍 Localização</h2>
     <p>Última zona conhecida: S. Sebastião de Guerreiros - Loures</p>
   </section>
+  <section class="form">
+    <h2>Contacto</h2>
+    <form id="contactForm">
+      <input type="text" name="name" placeholder="Nome" required><br>
+      <input type="email" name="email" placeholder="Email" required><br>
+      <textarea name="message" placeholder="Mensagem" required></textarea><br>
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
   <footer>
     <p>Se encontrares este gato, contacta por favor. Muito obrigado!</p>
   </footer>
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const payload = {
+        name: this.name.value,
+        email: this.email.value,
+        message: this.message.value,
+        timestamp: new Date().toISOString()
+      };
+
+      const response = await fetch("https://api.github.com/repos/figueiredolive/logan-the-cat/actions/workflows/store-contact.yml/dispatches", {
+        method: "POST",
+        headers: {
+          // "Authorization": "Bearer YOUR_GITHUB_PAT",  // Substitui por token temporário (ou usa token via backend se preferires)
+          "Accept": "application/vnd.github.v3+json"
+        },
+        body: JSON.stringify({
+          ref: "main", // ou a branch onde a action está
+          inputs: {
+            contact_data: JSON.stringify(payload)
+          }
+        })
+      });
+
+      if (response.ok) alert("Mensagem enviada para processamento!");
+      else alert("Erro ao enviar mensagem.");
+    });
+  </script>
 </body>
 </html>
