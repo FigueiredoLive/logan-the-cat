@@ -65,8 +65,10 @@
 
       if (response.ok) alert("Mensagem enviada para processamento!");
       else {
-        alert("Erro ao enviar mensagem." + response);
-        alert(payload);
+        const text = await response.text().catch(() => '');  
+        const msg = text ? `Server error: ${text}` : `${response.status} ${response.statusText}`;
+        alert("Erro ao enviar mensagem." + msg);
+        alert(JSON.stringify(payload));
       }
     });
   </script>
