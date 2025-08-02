@@ -1,0 +1,41 @@
+<!-- form.html -->
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulário Logan</title>
+</head>
+<body>
+  <h2>Contacto</h2>
+  <form id="contactForm">
+    <input type="text" name="name" placeholder="Nome" required><br>
+    <input type="email" name="email" placeholder="Email" required><br>
+    <textarea name="message" placeholder="Mensagem" required></textarea><br>
+    <button type="submit">Enviar</button>
+  </form>
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const data = {
+        name: this.name.value,
+        email: this.email.value,
+        message: this.message.value,
+        timestamp: new Date().toISOString()
+      };
+      await fetch('https://api.github.com/repos/figueiredolive/pet-data-store/dispatches', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/vnd.github.v3+json',
+          'Authorization': 'Bearer SEU_GITHUB_TOKEN',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          event_type: 'new-form-data',
+          client_payload: data
+        })
+      });
+      alert('Mensagem enviada com sucesso!');
+    });
+  </script>
+</body>
+</html>
